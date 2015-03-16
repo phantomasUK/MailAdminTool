@@ -107,8 +107,7 @@ class emails {
 			if (is_numeric($domainid)) {
 				if ((strpos($new_email,'.') !== false) && (strpos($new_email,'@') !== false)) {
 					if (!$this->does_email_exist($new_email)) {
-						$password = md5($password);
-						if ($this->db->query("INSERT INTO virtual_users SET email='$new_email', domain_id='$domainid', password='$password'")) {
+					if ($this->db->query("INSERT INTO virtual_users SET domain_id='$domainid', password=ENCRYPT('$password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))),  email='$new_email'")) {
 							return true;
 						}
 						else {
@@ -148,8 +147,7 @@ class emails {
 	
 	public function reset_password($emailid, $new_password) {
 		if (!empty($emailid) && !empty($new_password)) {
-			$new_password = md5($new_password);
-			if ($this->db->query("UPDATE virtual_users SET password='$new_password' WHERE id='$emailid'")) {
+	if ($this->db->query("UPDATE virtual_users SET password=ENCRYPT('$new_password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))) WHERE id='$emailid'")) {
 				return true;
 			}
 			else {
