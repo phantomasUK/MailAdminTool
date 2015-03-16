@@ -1,10 +1,14 @@
 MailAdminTool
 =============
 
-Mail Admin Tool based on work by Steffan Slot from http://mat.ssdata.dk/
+Mail Admin Tool based on work by Steffan Slot from http://mat.ssdata.dk/ with improvemnets by Tarek Loubani.
+This is a version with improved password security.
 
 This management interface is for the purpose of administering email servers, originally created and distributed by Stefan Slot (mat@ssdata.dk).
-It is made with the ISPmail guide (http://workaround.org/ispmail) in mind, and it works with the database created when following that guide.
+It is made with the ISPmail guide (http://workaround.org/ispmail) in mind, and with one exception it works with the database created when following that guide.
+IMPORTANT! In the virtual_users table the password column type has to be varchar(106) not varchar(32) because of the
+stronger password hashing.
+
 
 ## Requirements
 * A webserver with PHP support
