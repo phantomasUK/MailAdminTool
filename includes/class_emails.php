@@ -64,7 +64,7 @@ class emails {
 						echo '<a href="?page=emails&domainid=' . $domainid . '&reset_password=' . $email['id'] . '" onClick="';
 						echo 'getElementById(\'change_password_for_' . $email['id'] . '\').style.display = (getElementById(\'change_password_for_' . $email['id'] . '\').style.display != \'none\' ? \'none\' : \'block\'); return false;';
 						echo '"><div class="reset_password_button"></div></a>';
-						echo '<a href="?page=emails&domainid=' . $domainid . '&delete=' . $email['id'] . '" onClick="if(confirm(\'Really delete the email and all aliases on it???\')) { window.location=\'?page=emails&domainid=' . $domainid . '&delete=' . $email['id'] . '\' } else { return false; }"><div class="delete_button"></div></a>';
+						echo '<a href="?page=emails&domainid=' . $domainid . '&delete=' . $email['id'] . '" onClick="if(confirm(\'Really delete this account and associated aliases???\')) { window.location=\'?page=emails&domainid=' . $domainid . '&delete=' . $email['id'] . '\' } else { return false; }"><div class="delete_button"></div></a>';
 						echo '<div class="row_content"> - <a href="?page=aliases&emailid=' . $email['id'] . '">' . $email['email'] . '</a></div>';
 						echo ' <div id="change_password_for_' . $email['id'] . '" class="change_password_wrapper" style="display: none">';
 							echo '<form id="new_password_for_' . $email['id'] . '" name="new_password_for_' . $email['id'] . '" action="?page=emails&domainid=' . $domainid . '&reset_password=' . $email['id'] . '" method="POST">';
@@ -107,7 +107,7 @@ class emails {
 			if (is_numeric($domainid)) {
 				if ((strpos($new_email,'.') !== false) && (strpos($new_email,'@') !== false)) {
 					if (!$this->does_email_exist($new_email)) {
-					if ($this->db->query("INSERT INTO virtual_users SET domain_id='$domainid', password=ENCRYPT('$password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))),  email='$new_email'")) {
+						if ($this->db->query("INSERT INTO virtual_users SET domain_id='$domainid', password=ENCRYPT('$password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))),  email='$new_email'")) {
 							return true;
 						}
 						else {
@@ -147,7 +147,7 @@ class emails {
 	
 	public function reset_password($emailid, $new_password) {
 		if (!empty($emailid) && !empty($new_password)) {
-	if ($this->db->query("UPDATE virtual_users SET password=ENCRYPT('$new_password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))) WHERE id='$emailid'")) {
+			if ($this->db->query("UPDATE virtual_users SET password=ENCRYPT('$new_password', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))) WHERE id='$emailid'")) {
 				return true;
 			}
 			else {
